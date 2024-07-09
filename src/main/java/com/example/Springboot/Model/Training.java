@@ -15,6 +15,7 @@ public class Training {
     public Training() {
 
     }
+
     public Training(String training, Integer hours, String gym, String duration, Integer instructorId) {
         this.training = training;
         this.hours = hours;

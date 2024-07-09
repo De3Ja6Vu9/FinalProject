@@ -1,6 +1,8 @@
 package com.example.Springboot.Repository;
 
 import com.example.Springboot.Model.Training;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,11 +16,23 @@ class TrainingRepositoryTest {
     @Autowired
     TrainingRepository trainingRepository;
 
+  @BeforeEach
+  void setUp() {
+      Training dragon = new Training("dragon-type", 15, "D8", "36 days", 3);
+      trainingRepository.save(dragon);
+  }
+
+  @AfterEach
+  void tearDown() {
+      trainingRepository.deleteById("dragon-type");
+  }
+
+
     @Test
     public void findAll_training_trainingList() {
 List<Training> trainingList = trainingRepository.findAll();
 System.out.println(trainingList);
-assertEquals(4, trainingList.size());
+assertEquals(5, trainingList.size());
     }
 
     @Test
@@ -33,5 +47,34 @@ assertEquals(4, trainingList.size());
     public void findById_invalidId_trainingNotPresent() {
         Optional<Training> trainingOptional = trainingRepository.findById("Fire-type");
         assertTrue(trainingOptional.isEmpty());
+    }
+
+    @Test
+    public void findByHours_validHours_correctTraining() {
+      Optional<Training> trainingOptional = trainingRepository.findByHours(40);
+      assertTrue(trainingOptional.isPresent());
+      System.out.println(trainingOptional.get());
+      assertEquals("Water-type", trainingOptional.get().getTraining());
+    }
+
+    @Test
+    public void findByGym_validGym_GymList() {
+      List<Training> trainingList = trainingRepository.findAllByGym("W3");
+      System.out.println(trainingList);
+      assertEquals(1, trainingList.size());
+    }
+
+    @Test
+    public void findByGymContaining_str_trainingList(){
+      List<Training> trainingList = trainingRepository.findAllByGym("W3");
+      System.out.println(trainingList);
+      assertEquals(1, trainingList.size());
+    }
+
+    @Test
+    public void findByHoursLessThan_validHours_trainingList(){
+      List<Training> trainingList = trainingRepository.findAllByHoursLessThan(25);
+      System.out.println(trainingList);
+      assertEquals(3, trainingList.size());
     }
 }
