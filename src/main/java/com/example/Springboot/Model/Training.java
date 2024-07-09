@@ -12,7 +12,6 @@ public class Training {
     private String duration;
     private Integer instructorId;
 
-
     public Training() {
 
     }
