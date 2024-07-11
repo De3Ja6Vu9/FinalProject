@@ -1,9 +1,6 @@
 package com.example.Springboot.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Instructor {
@@ -12,6 +9,10 @@ public class Instructor {
     private Integer id;
     private String instructor;
 
+    @OneToOne
+    private Address addresss;
+
+
     //Empty CONSTRUCTOR
     public Instructor() {
     }
@@ -19,6 +20,11 @@ public class Instructor {
     public Instructor(String instructor) {
         this.instructor = instructor;
     }
+
+    public Instructor(Address addresss) {
+        this.addresss = addresss;
+    }
+
 
     //GETTERS & SETTERS
     public Integer getId() {
@@ -38,10 +44,18 @@ public class Instructor {
         this.instructor = instructor;
     }
 
+    public Address getAddresss() {
+        return addresss;
+    }
+    public void setAddresss(Address addresss) {
+        this.addresss = addresss;
+    }
+
     @Override
     public String toString() {
         return "Instructor{" +
-                "id=" + id +
+                "addresss=" + addresss +
+                ", id=" + id +
                 ", instructor='" + instructor + '\'' +
                 '}';
     }

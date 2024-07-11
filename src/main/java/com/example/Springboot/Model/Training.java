@@ -2,28 +2,35 @@ package com.example.Springboot.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
 
 @Entity
 public class Training {
     @Id
     private String training;
+    @Max(value = 300, message=" Not more than 300 hours")
+    @Min(value = 5, message="Not less than 5 hours")
     private Integer hours;
+    @NotEmpty(message="Gym cannot be empty")
     private String gym;
     private String duration;
-    private Integer instructorId;
+//
+    @ManyToOne
+    private Instructor instructor;
 
     public Training() {
-
     }
-
-    public Training(String training, Integer hours, String gym, String duration, Integer instructorId) {
+    public Training(String training, Integer hours, String gym, String duration) {
         this.training = training;
         this.hours = hours;
         this.gym = gym;
         this.duration = duration;
-        this.instructorId = instructorId;
-
+        this.instructor = instructor;
     }
+
     public String getTraining() {
 
         return training;
@@ -56,13 +63,11 @@ public class Training {
 
         this.duration = duration;
     }
-    public Integer getInstructorId() {
-
-        return instructorId;
+    public Instructor getInstructor() {
+        return instructor;
     }
-    public void setInstructorId(Integer instructorId) {
-
-        this.instructorId = instructorId;
+    public void setInstructor(Instructor instructor) {
+        this.instructor = instructor;
     }
 
     @Override
@@ -72,7 +77,7 @@ public class Training {
                 ", training='" + training + '\'' +
                 ", hours=" + hours +
                 ", gym='" + gym + '\'' +
-                ", instructorId=" + instructorId +
+                ", instructor=" + instructor +
                 '}';
     }
 }

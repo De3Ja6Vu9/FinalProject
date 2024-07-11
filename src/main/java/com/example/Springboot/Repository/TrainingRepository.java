@@ -22,6 +22,9 @@ public interface TrainingRepository extends JpaRepository<Training, String> {
     @Query("SELECT t FROM Training t WHERE t.hours = 40")
     List<Training> findAllByHours40();
 
+    @Query("SELECT t FROM Training t WHERE t.training = ?1 AND t.hours <= ?2")
+    List<Training> findAllWhereGymAndHoursParams(String gym, Integer hours);
+
 
 
 }

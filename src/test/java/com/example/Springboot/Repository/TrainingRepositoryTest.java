@@ -1,5 +1,6 @@
 package com.example.Springboot.Repository;
 
+import com.example.Springboot.Model.Instructor;
 import com.example.Springboot.Model.Training;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,10 +16,21 @@ import static org.junit.jupiter.api.Assertions.*;
 class TrainingRepositoryTest {
     @Autowired
     TrainingRepository trainingRepository;
+//
+    @Autowired
+    InstructorRepository instructorRepository;
 
   @BeforeEach
   void setUp() {
-      Training dragon = new Training("dragon-type", 15, "D8", "36 days", 3);
+      //
+      Optional<Instructor> instructorOptional = instructorRepository.findById(2);
+
+      if (instructorOptional.isPresent()) {
+          Training fire = new Training("Fire", 22, "H67", "67 days");
+          trainingRepository.save(fire);
+      }
+
+      Training dragon = new Training("dragon-type", 15, "D8", "36 days");
       trainingRepository.save(dragon);
   }
 
@@ -32,7 +44,7 @@ class TrainingRepositoryTest {
     public void findAll_training_trainingList() {
 List<Training> trainingList = trainingRepository.findAll();
 System.out.println(trainingList);
-assertEquals(5, trainingList.size());
+assertEquals(6, trainingList.size());
     }
 
     @Test
@@ -75,6 +87,6 @@ assertEquals(5, trainingList.size());
     public void findByHoursLessThan_validHours_trainingList(){
       List<Training> trainingList = trainingRepository.findAllByHoursLessThan(25);
       System.out.println(trainingList);
-      assertEquals(3, trainingList.size());
+      assertEquals(4, trainingList.size());
     }
 }

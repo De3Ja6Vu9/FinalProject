@@ -1,5 +1,6 @@
 package com.example.Springboot.Repository;
 
+import com.example.Springboot.Model.Address;
 import com.example.Springboot.Model.Instructor;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +18,16 @@ class InstructorRepositoryTest {
     @Autowired
     InstructorRepository instructorRepository;
 
+    @Autowired
+    AddressRepository addressRepository;
+
     Instructor instructor;
 
     @BeforeEach
     void setUp() {
+        Address address = new Address(5, "Pallet Town", "15N");
+        addressRepository.save(address);
+
         instructor = new Instructor("Sabrina");
         instructorRepository.save(instructor);
         System.out.println(instructor);
@@ -29,9 +36,8 @@ class InstructorRepositoryTest {
     @AfterEach
     void tearDown() {
         instructorRepository.deleteById(instructor.getId());
-
+        addressRepository.deleteById(5);
     }
-
     @Test
     public void findAll_instructors_instructorList(){
        List<Instructor> instructorList = instructorRepository.findAll();
